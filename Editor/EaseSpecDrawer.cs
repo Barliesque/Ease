@@ -3,7 +3,7 @@ using UnityEditor;
 using Barliesque.InspectorTools.Editor;
 
 
-namespace Barliesque.Ease.Editor
+namespace Barliesque.Easing.Editor
 {
 
 	[CustomPropertyDrawer(typeof(EaseSpec))]
