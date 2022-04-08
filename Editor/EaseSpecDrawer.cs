@@ -11,6 +11,8 @@ namespace Barliesque.Easing.Editor
 	{
 		static Material PreviewMaterial;
 
+		override protected int LinesPerElement => 3;
+
 		override public float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			return 24f;
