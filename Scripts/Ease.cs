@@ -393,7 +393,7 @@ namespace Barliesque.Easing
 
 			static public float In(float from, float to, float t)
 			{
-				return (to - from) * Out(1.0f - t) + from;
+				return (to - from) * (1f - Out(1.0f - t)) + from;
 			}
 
 			static public float Out(float t)
