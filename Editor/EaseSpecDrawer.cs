@@ -56,7 +56,7 @@ namespace Barliesque.Easing.Editor
 			{
 				GUI.BeginClip(rect);
 				GL.PushMatrix();
-				GL.Clear(true, false, Color.black);
+				//GL.Clear(true, false, Color.black);
 				PreviewMaterial.SetPass(0);
 
 				// Draw a box
