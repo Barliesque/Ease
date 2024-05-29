@@ -31,7 +31,7 @@ namespace Barliesque.Easing.Editor
 
 			// Draw a preview of the curve
 			// Ref: https://answers.unity.com/questions/1360515/how-do-i-draw-lines-in-a-custom-inspector.html
-			if (PreviewMaterial == null)
+			if (!PreviewMaterial)
 			{
 				PreviewMaterial = new Material(Shader.Find("Hidden/Internal-Colored"));
 			}
@@ -52,52 +52,50 @@ namespace Barliesque.Easing.Editor
 			rect.x = 0f;
 			rect.y = 0f;
 
-			if (Event.current.type == EventType.Repaint)
+			if (Event.current.type != EventType.Repaint) return;
+			GUI.BeginClip(rect);
+			GL.PushMatrix();
+			//GL.Clear(true, false, Color.black);
+			PreviewMaterial.SetPass(0);
+
+			// Draw a box
+			GL.Begin(GL.QUADS);
+			GL.Color(Color.black);
+			GL.Vertex3(left, top, 0f);
+			GL.Vertex3(rect.width, top, 0f);
+			GL.Vertex3(rect.width, top + rect.height, 0f);
+			GL.Vertex3(left, top + rect.height, 0f);
+			GL.End();
+			GL.Begin(GL.LINE_STRIP);
+			GL.Color(Color.gray);
+			GL.Vertex3(left, top, 0f);
+			GL.Vertex3(rect.width, top, 0f);
+			GL.Vertex3(rect.width, top + rect.height, 0f);
+			GL.Vertex3(left, top + rect.height, 0f);
+			GL.Vertex3(left, top, 0f);
+			GL.End();
+
+			// Plot the curve
+			GL.Begin(GL.LINE_STRIP);
+			GL.Color(Color.white);
+
+			for (int x = 0; x < 100; x++)
 			{
-				GUI.BeginClip(rect);
-				GL.PushMatrix();
-				//GL.Clear(true, false, Color.black);
-				PreviewMaterial.SetPass(0);
-
-				// Draw a box
-				GL.Begin(GL.QUADS);
-				GL.Color(Color.black);
-				GL.Vertex3(left, top, 0f);
-				GL.Vertex3(rect.width, top, 0f);
-				GL.Vertex3(rect.width, top + rect.height, 0f);
-				GL.Vertex3(left, top + rect.height, 0f);
-				GL.End();
-				GL.Begin(GL.LINE_STRIP);
-				GL.Color(Color.gray);
-				GL.Vertex3(left, top, 0f);
-				GL.Vertex3(rect.width, top, 0f);
-				GL.Vertex3(rect.width, top + rect.height, 0f);
-				GL.Vertex3(left, top + rect.height, 0f);
-				GL.Vertex3(left, top, 0f);
-				GL.End();
-
-				// Plot the curve
-				GL.Begin(GL.LINE_STRIP);
-				GL.Color(Color.white);
-
-				for (int x = 0; x < 100; x++)
+				var t = (x / 99f);
+				Vector2 pos;
+				if (flipped)
 				{
-					var t = (x / 99f);
-					Vector2 pos;
-					if (flipped)
-					{
-						pos = new Vector2(left + t * width, top + rect.height - (1f - Ease.Call(style, type, t)) * rect.height);
-					}
-					else
-					{
-						pos = new Vector2(left + t * width, top + rect.height - Ease.Call(style, type, t) * rect.height);
-					}
-					GL.Vertex3(pos.x, pos.y, 0);
+					pos = new Vector2(left + t * width, top + rect.height - (1f - Ease.Call(style, type, t)) * rect.height);
 				}
-				GL.End();
-				GUI.EndClip();
-				GL.PopMatrix();
+				else
+				{
+					pos = new Vector2(left + t * width, top + rect.height - Ease.Call(style, type, t) * rect.height);
+				}
+				GL.Vertex3(pos.x, pos.y, 0);
 			}
+			GL.End();
+			GUI.EndClip();
+			GL.PopMatrix();
 		}
 
 	}
