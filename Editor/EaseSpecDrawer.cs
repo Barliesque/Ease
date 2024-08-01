@@ -11,7 +11,7 @@ namespace Barliesque.Easing.Editor
 	{
 		static Material PreviewMaterial;
 
-		override protected int LinesPerElement => 3;
+		override protected int LinesPerElement => 1;
 
 		override public float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
@@ -36,34 +36,29 @@ namespace Barliesque.Easing.Editor
 				PreviewMaterial = new Material(Shader.Find("Hidden/Internal-Colored"));
 			}
 
-			Rect rect;
-			try
-			{
-				rect = GUILayoutUtility.GetRect(10, 1000, 50, 50);
-			}
-			catch
-			{
-				return;
-			}
+			//TODO  This is some screwy shit that needs rewriting (one day)
+			const float offset = 34f;
+			var rect = _position;
+			float top = rect.y - 1;
+			float left = offset;
+			float width = rect.width;
+			rect.x -= width;
+			rect.x += 40f;
+			rect.y = -1f;
+			rect.width += offset;
+			width += offset;
+			rect.height += 3f;
 
-			float top = rect.y - 4;
-			float left = Margin;
-			float width = rect.width - left;
-			rect.x = 0f;
-			rect.y = 0f;
-
-			if (Event.current.type != EventType.Repaint) return;
 			GUI.BeginClip(rect);
 			GL.PushMatrix();
-			//GL.Clear(true, false, Color.black);
 			PreviewMaterial.SetPass(0);
 
 			// Draw a box
 			GL.Begin(GL.QUADS);
 			GL.Color(Color.black);
 			GL.Vertex3(left, top, 0f);
-			GL.Vertex3(rect.width, top, 0f);
-			GL.Vertex3(rect.width, top + rect.height, 0f);
+			GL.Vertex3(width, top, 0f);
+			GL.Vertex3(width, top + rect.height, 0f);
 			GL.Vertex3(left, top + rect.height, 0f);
 			GL.End();
 			GL.Begin(GL.LINE_STRIP);
@@ -74,6 +69,8 @@ namespace Barliesque.Easing.Editor
 			GL.Vertex3(left, top + rect.height, 0f);
 			GL.Vertex3(left, top, 0f);
 			GL.End();
+
+			width -= offset;
 
 			// Plot the curve
 			GL.Begin(GL.LINE_STRIP);
