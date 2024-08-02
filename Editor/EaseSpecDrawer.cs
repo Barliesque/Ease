@@ -36,10 +36,13 @@ namespace Barliesque.Easing.Editor
 				PreviewMaterial = new Material(Shader.Find("Hidden/Internal-Colored"));
 			}
 
+			// Solves a strange extra draw call where _position is misaligned
+			if (_position.y.Equals(0f)) return;
+
 			//TODO  This is some screwy shit that needs rewriting (one day)
 			const float offset = 34f;
-			var rect = _position;
-			float top = rect.y - 1;
+			var rect = new Rect(_position);
+			float top = rect.y;
 			float left = offset;
 			float width = rect.width;
 			rect.x -= width;
@@ -47,10 +50,11 @@ namespace Barliesque.Easing.Editor
 			rect.y = -1f;
 			rect.width += offset;
 			width += offset;
-			rect.height += 3f;
+			rect.height += 2f;
 
 			GUI.BeginClip(rect);
 			GL.PushMatrix();
+			
 			PreviewMaterial.SetPass(0);
 
 			// Draw a box
@@ -91,8 +95,10 @@ namespace Barliesque.Easing.Editor
 				GL.Vertex3(pos.x, pos.y, 0);
 			}
 			GL.End();
-			GUI.EndClip();
+			
 			GL.PopMatrix();
+			GUI.EndClip();
+			
 		}
 
 	}
