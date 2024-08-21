@@ -23,8 +23,8 @@ namespace Barliesque.Easing.Editor
 			var flipAttr = fieldInfo.GetCustomAttributes(typeof(FlipCurveAttribute), true);
 			bool flipped = (flipAttr?.Length > 0);
 
-			Field(44f, 80f, "Style");
-			Field(40f, 70f, "Type");
+			Field(40f, 70f, "Style");
+			Field(40f, 60f, "Type");
 
 			var style = (EaseStyle)Property.FindPropertyRelative("Style").intValue;
 			var type = (EaseType)Property.FindPropertyRelative("Type").intValue;
@@ -45,7 +45,7 @@ namespace Barliesque.Easing.Editor
 			float top = rect.y;
 			float left = offset;
 			float width = rect.width;
-			rect.x -= width;
+			rect.x -= width + 10f;
 			rect.x += 40f;
 			rect.y = -1f;
 			rect.width += offset;
