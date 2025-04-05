@@ -37,9 +37,9 @@ namespace Barliesque.Easing.Editor
 			}
 
 			// Solves a strange extra draw call where _position is misaligned
-			if (_position.y.Equals(0f)) return;
+			if (_position.y < 16f) return;
 
-			//TODO  This is some screwy shit that needs rewriting (one day)
+			//TODO  This is some screwy shit that needs rewriting (one day far in the future)
 			const float offset = 34f;
 			var rect = new Rect(_position);
 			float top = rect.y;
@@ -51,6 +51,8 @@ namespace Barliesque.Easing.Editor
 			rect.width += offset;
 			width += offset;
 			rect.height += 2f;
+			
+			//Debug.Log($"{top} {left} {width} {_pos} {_position.y}");
 
 			GUI.BeginClip(rect);
 			GL.PushMatrix();
