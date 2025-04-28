@@ -688,6 +688,7 @@ namespace Barliesque.Easing
 		{
 			static public float In(float t)
 			{
+				if (t >= 1f) return 1f;
 				return 1f - Mathf.Sqrt(1f - t * t);
 			}
 
@@ -698,6 +699,7 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
+				if (t <= 0f) return 0f;
 				t = 1f - t;
 				return Mathf.Sqrt(1f - t * t);
 			}
@@ -709,6 +711,8 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
+				if (t >= 1f) return 1f;
+				if (t <= 0f) return 0f;
 				t *= 2f;
 				if (t < 1f)
 				{
