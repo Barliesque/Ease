@@ -69,9 +69,9 @@ namespace Barliesque.Easing
 
 		public delegate float EaseFunc01(float t);
 
-		delegate float EaseByType(EaseType type, float from, float to, float t);
+		private delegate float EaseByType(EaseType type, float from, float to, float t);
 
-		static EaseByType[] EaseCall = new EaseByType[]
+		static private EaseByType[] EaseCall = new EaseByType[]
 		{
 			Linear.ByType,
 			Sinus.ByType,
@@ -88,9 +88,9 @@ namespace Barliesque.Easing
 			Spike.ByType
 		};
 
-		delegate float EaseByType01(EaseType type, float t);
+		private delegate float EaseByType01(EaseType type, float t);
 
-		static EaseByType01[] EaseCall01 = new EaseByType01[]
+		static private EaseByType01[] EaseCall01 = new EaseByType01[]
 		{
 			Linear.ByType,
 			Sinus.ByType,
@@ -105,6 +105,7 @@ namespace Barliesque.Easing
 			Elastic.ByType,
 			Yoyo.ByType,
 			Spike.ByType
+
 		};
 
 		//TODO  Add a Remap() function:  (EaseType/Style, from, to, current) --where t is calculated as a linear position between to and from, before the ease recalculates the value -- or maybe just use Mathf.InverseLerp to find t
@@ -218,30 +219,29 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(from, to, t);
-					case EaseType.Out: return Out(from, to, t);
-					case EaseType.InOut: return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(t);
-					case EaseType.Out: return Out(t);
-					case EaseType.InOut: return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
-		//.....................................................................
+		//----------------------------------------------------------------
+		
 
 		static public class Quad
 		{
@@ -257,7 +257,7 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
-				return t * (2.0f - t);
+				return t * (2f - t);
 			}
 
 			static public float Out(float from, float to, float t)
@@ -267,11 +267,11 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
-				t *= 2.0f;
-				if (t < 1.0f)
+				t *= 2f;
+				if (t < 1f)
 					return t * t * 0.5f;
-				t -= 1.0f;
-				return 1f + 0.5f * (t * (2.0f - t) - 1.0f);
+				t -= 1f;
+				return 1f + 0.5f * (t * (2f - t) - 1f);
 			}
 
 			static public float InOut(float from, float to, float t)
@@ -281,32 +281,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -326,8 +318,8 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
-				--t;
-				return t * t * t * t * t + 1.0f;
+				t -= 1f;
+				return t * t * t * t * t + 1f;
 			}
 
 			static public float Out(float from, float to, float t)
@@ -337,11 +329,11 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
-				t *= 2.0f;
-				if (t < 1.0f)
+				t *= 2f;
+				if (t < 1f)
 					return 0.5f * t * t * t * t * t;
-				t -= 2.0f;
-				return 0.5f * (t * t * t * t * t + 2.0f);
+				t -= 2f;
+				return 0.5f * (t * t * t * t * t + 2f);
 			}
 
 			static public float InOut(float from, float to, float t)
@@ -351,32 +343,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -384,28 +368,27 @@ namespace Barliesque.Easing
 
 		static public class Bounce
 		{
-			const float F1_275 = 1f / 2.75f;
+			private const float F1_275 = 1f / 2.75f;
 
 			static public float In(float t)
 			{
-				return 1.0f - Out(1.0f - t);
+				return 1f - Out(1f - t);
 			}
 
 			static public float In(float from, float to, float t)
 			{
-				return (to - from) * (1f - Out(1.0f - t)) + from;
+				return (to - from) * (1f - Out(1f - t)) + from;
 			}
 
 			static public float Out(float t)
 			{
-				if (t < (F1_275))
-					return (7.5625f * t * t);
-				else if (t < (2f * F1_275))
-					return (7.5625f * (t -= (1.5f * F1_275)) * t + 0.75f);
-				else if (t < (2.5 / 2.75))
-					return (7.5625f * (t -= (2.25f * F1_275)) * t + 0.9375f);
-				else
-					return (7.5625f * (t -= (2.625f * F1_275)) * t + 0.984375f);
+				return t switch
+				{
+					< F1_275 => (7.5625f * t * t),
+					< 2f * F1_275 => (7.5625f * (t -= (1.5f * F1_275)) * t + 0.75f),
+					< 2.5f / 2.75f => (7.5625f * (t -= (2.25f * F1_275)) * t + 0.9375f),
+					_ => (7.5625f * (t -= (2.625f * F1_275)) * t + 0.984375f)
+				};
 			}
 
 			static public float Out(float from, float to, float t)
@@ -428,32 +411,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -461,21 +436,21 @@ namespace Barliesque.Easing
 
 		static public class Elastic
 		{
-			const float AMPLITUDE = 0f;
-			const float PERIOD = 0.3f;
-			const float PERIOD1_5 = PERIOD * 1.5f;
-			const float PERIOD0_375 = PERIOD * 0.375f;
-			const float PERIOD0_25 = PERIOD * 0.25f;
-			const float TWO_PI = Mathf.PI * 2.0f;
+			// private const float AMPLITUDE = 0f;
+			private const float PERIOD = 0.3f;
+			// private const float PERIOD1_5 = PERIOD * 1.5f;
+			// private const float PERIOD0_375 = PERIOD * 0.375f;
+			private const float PERIOD0_25 = PERIOD * 0.25f;
+			private const float TWO_PI = Mathf.PI * 2f;
 
 			static public float In(float t)
 			{
-				if (t == 0.0f)
+				if (t <= 0.0f)
 					return 0.0f;
-				if (t == 1.0f)
-					return 1.0f;
+				if (t >= 1f)
+					return 1f;
 				--t;
-				return -(Mathf.Pow(2.0f, 10.0f * t) * Mathf.Sin((t - PERIOD0_25) * TWO_PI / PERIOD));
+				return -(Mathf.Pow(2f, 10.0f * t) * Mathf.Sin((t - PERIOD0_25) * TWO_PI / PERIOD));
 			}
 
 			static public float In(float from, float to, float t)
@@ -485,7 +460,7 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
-				return (Mathf.Pow(2.0f, -10.0f * t) * Mathf.Sin((t - PERIOD0_25) * TWO_PI / PERIOD) + 1.0f);
+				return (Mathf.Pow(2f, -10.0f * t) * Mathf.Sin((t - PERIOD0_25) * TWO_PI / PERIOD) + 1f);
 			}
 
 			static public float Out(float from, float to, float t)
@@ -495,8 +470,8 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
-				if (t == 0) return 0f;
-				if (t == 1) return 1f;
+				if (t <= 0) return 0f;
+				if (t >= 1) return 1f;
 
 				if (t < 0.5f)
 				{
@@ -513,32 +488,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -546,11 +513,11 @@ namespace Barliesque.Easing
 
 		static public class Back
 		{
-			const float OVERSHOOT = 1.70158f;
+			private const float OVERSHOOT = 1.70158f;
 
 			static public float In(float t)
 			{
-				return t * t * ((OVERSHOOT + 1.0f) * t - OVERSHOOT);
+				return t * t * ((OVERSHOOT + 1f) * t - OVERSHOOT);
 			}
 
 			static public float In(float from, float to, float t)
@@ -561,7 +528,7 @@ namespace Barliesque.Easing
 			static public float Out(float t)
 			{
 				t -= 1f;
-				return (t * t * ((OVERSHOOT + 1.0f) * t + OVERSHOOT) + 1.0f);
+				return (t * t * ((OVERSHOOT + 1f) * t + OVERSHOOT) + 1f);
 			}
 
 			static public float Out(float from, float to, float t)
@@ -571,12 +538,12 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
-				t *= 2.0f;
-				var s = OVERSHOOT * 1.525f;
-				if (t < 1.0f)
-					return 0.5f * (t * t * ((s + 1.0f) * t - s));
-				t -= 2.0f;
-				return 0.5f * (t * t * ((s + 1.0f) * t + s) + 2.0f);
+				t *= 2f;
+				const float s = OVERSHOOT * 1.525f;
+				if (t < 1f)
+					return 0.5f * (t * t * ((s + 1f) * t - s));
+				t -= 2f;
+				return 0.5f * (t * t * ((s + 1f) * t + s) + 2f);
 			}
 
 			static public float InOut(float from, float to, float t)
@@ -586,32 +553,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -619,11 +578,11 @@ namespace Barliesque.Easing
 
 		static public class Sinus
 		{
-			const float HALF_PI = Mathf.PI * 0.5f;
+			private const float HALF_PI = Mathf.PI * 0.5f;
 
 			static public float In(float t)
 			{
-				return 1.0f - Mathf.Cos(t * HALF_PI);
+				return 1f - Mathf.Cos(t * HALF_PI);
 			}
 
 			static public float In(float from, float to, float t)
@@ -643,7 +602,7 @@ namespace Barliesque.Easing
 
 			static public float InOut(float t)
 			{
-				return 0.5f * (1.0f - Mathf.Cos(Mathf.PI * t));
+				return 0.5f * (1f - Mathf.Cos(Mathf.PI * t));
 			}
 
 			static public float InOut(float from, float to, float t)
@@ -653,32 +612,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -731,32 +682,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -766,7 +709,7 @@ namespace Barliesque.Easing
 		{
 			static public float In(float t)
 			{
-				return (t == 0f) ? 0f : Mathf.Pow(2f, 10f * (t - 1f));
+				return (t <= 0f) ? 0f : Mathf.Pow(2f, 10f * (t - 1f));
 			}
 
 			static public float In(float from, float to, float t)
@@ -776,7 +719,7 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
-				return (t == 1f) ? 1f : -Mathf.Pow(2f, -10 * t) + 1f;
+				return (t >= 1f) ? 1f : -Mathf.Pow(2f, -10 * t) + 1f;
 			}
 
 			static public float Out(float from, float to, float t)
@@ -789,11 +732,11 @@ namespace Barliesque.Easing
 				t *= 2f;
 				if (t < 1f)
 				{
-					return (t == 0) ? 0f : (0.5f * Mathf.Pow(2f, 10f * (t - 1f)));
+					return (t <= 0f) ? 0f : (0.5f * Mathf.Pow(2f, 10f * (t - 1f)));
 				}
 				else
 				{
-					return (t == 2) ? 1f : (0.5f * (2f - Mathf.Pow(2f, -10f * (--t))));
+					return t.Equals(2f) ? 1f : (0.5f * (2f - Mathf.Pow(2f, -10f * (--t))));
 				}
 			}
 
@@ -804,32 +747,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -849,13 +784,13 @@ namespace Barliesque.Easing
 
 			static public float Out(float t)
 			{
-				--t;
+				t -= 1f;
 				return 2f - (t * t * t * t + 1f);
 			}
 
 			static public float Out(float from, float to, float t)
 			{
-				--t;
+				t -= 1f;
 				return (from - to) * (t * t * t * t + 1f) + from;
 			}
 
@@ -875,26 +810,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(from, to, t);
-					case EaseType.Out: return Out(from, to, t);
-					case EaseType.InOut: return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(t);
-					case EaseType.Out: return Out(t);
-					case EaseType.InOut: return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -902,11 +835,11 @@ namespace Barliesque.Easing
 
 		static public class Yoyo
 		{
-			const float _offsetLong = 17f / 24f;
-			const float _offsetShort = 1f - _offsetLong;
+			private const float _offsetLong = 17f / 24f;
+			private const float _offsetShort = 1f - _offsetLong;
 
-			const float _invLong = 1f / _offsetLong;
-			const float _invShort = 1f / _offsetShort;
+			private const float _invLong = 1f / _offsetLong;
+			private const float _invShort = 1f / _offsetShort;
 
 			static public float In(float t)
 			{
@@ -954,32 +887,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(from, to, t);
-					case EaseType.Out:
-						return Out(from, to, t);
-					case EaseType.InOut:
-						return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In:
-						return In(t);
-					case EaseType.Out:
-						return Out(t);
-					case EaseType.InOut:
-						return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
@@ -1046,26 +971,24 @@ namespace Barliesque.Easing
 
 			static public float ByType(EaseType type, float from, float to, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(from, to, t);
-					case EaseType.Out: return Out(from, to, t);
-					case EaseType.InOut: return InOut(from, to, t);
-				}
-
-				return from;
+					EaseType.In => In(from, to, t),
+					EaseType.Out => Out(from, to, t),
+					EaseType.InOut => InOut(from, to, t),
+					_ => from
+				};
 			}
 
 			static public float ByType(EaseType type, float t)
 			{
-				switch (type)
+				return type switch
 				{
-					case EaseType.In: return In(t);
-					case EaseType.Out: return Out(t);
-					case EaseType.InOut: return InOut(t);
-				}
-
-				return 0f;
+					EaseType.In => In(t),
+					EaseType.Out => Out(t),
+					EaseType.InOut => InOut(t),
+					_ => 0f
+				};
 			}
 		}
 
