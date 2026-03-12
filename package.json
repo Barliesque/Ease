@@ -1,0 +1,13 @@
+{
+  "name": "com.barliesque.ease",
+  "displayName": "Ease",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "description": "A flexible implementation of standard easing formulas.  It allows for several methods of usage, from simply calling a function directly, to selecting easie style as a property in the Inspector.",
+  "keywords": ["unity", "package", "animation", "procedural", "easing", "motion"],
+  "author": {
+    "name": "David Barlia",
+    "email": "barliesque@gmail.com"
+  },
+  "license": "MIT"
+}
