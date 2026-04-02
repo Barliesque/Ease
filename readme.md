@@ -81,7 +81,9 @@ While, in most cases it makes sense for the preview graph to progress from the l
 # More about `this.Play()`
 `this.Play()` returns a `CoroutineHandle`.  Hang on to that if you want to be able to stop that coroutine before it completes.  `CoroutineHandle` is not part of Unity's Coroutine system, but a 3rd party library called [More Effective Coroutines (MEC)](https://assetstore.unity.com/packages/tools/animation/more-effective-coroutines-free-54975) 
 
-Q:  Can I pass in any parameters to the callback function?
+
+Q:  *Can I pass in any parameters to the callback function?*
+
 A:  Yes!  For example:
   
 	private void MoveObject()
@@ -96,22 +98,28 @@ A:  Yes!  For example:
 	   transform.position = pos;
 	}
 
-Q:  Do I need to extend a specific class that has the `Play()` call?
+
+Q:  *Do I need to extend a specific class that has the `Play()` call?*
+
 A:  No.  Just add the following using directives at the top of your script:
   
 	using Barliesque.Utils;
 	using Barliesque.Ease;
 	using MEC;
-  
-Q:  Can it be used inline?
+
+
+Q:  *Can it be used inline?*
+
 A:  Of course!  For very simple callbacks, you can write `this.Play` and the callback inline with a delta expression:
 
 	this.Play(0.5f, (float value) => {});
 
-Q:  How do I stop the animation mid-way?
+Q:  *How do I stop the animation mid-way?*
+
 A:  Using the CoroutineHandle returned from this.Play() you can do this:
   
 	Timing.KillCoroutines(handle);
+
 
 Check `handle.IsRunning` to find out if the coroutine has completed or is still running.
 You can even pause/unpause with: `handle.IsAliveAndPaused = false` or `true`.
