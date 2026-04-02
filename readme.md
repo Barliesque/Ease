@@ -121,8 +121,7 @@ A:  Using the CoroutineHandle returned from this.Play() you can do this:
 	Timing.KillCoroutines(handle);
 
 
-Check `handle.IsRunning` to find out if the coroutine has completed or is still running.
-You can even pause/unpause with: `handle.IsAliveAndPaused = false` or `true`.
+With [the Pro version of MEC](https://assetstore.unity.com/packages/tools/animation/more-effective-coroutines-pro-68480), you can check `handle.IsRunning` to find out if the coroutine has completed or is still running.  You can even pause/unpause with: `handle.IsAliveAndPaused = false` or `true`.
   
 More info about `CoroutineHandle`, including full documentation, can be found at:  [http://trinary.tech/category/mec/](http://trinary.tech/category/mec/)
 
