@@ -9,5 +9,8 @@
     "name": "David Barlia",
     "email": "barliesque@gmail.com"
   },
+  "dependencies": {
+    "com.barliesque.inspector-tools": "https://github.com/Barliesque/InspectorTools.git"
+  },
   "license": "MIT"
 }
